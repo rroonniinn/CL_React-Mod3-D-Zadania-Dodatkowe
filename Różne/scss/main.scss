@@ -1,0 +1,161 @@
+
+$height : 100px;
+$width : 20%;
+$superMap : (
+    col1 : orange,
+    col2 : red,
+    col3 : blue,
+    col4 : gray,
+    col5 : yellow
+    );
+
+.el {
+    float: left;
+    width: $width;
+    height: $height;
+}
+
+.el1 {
+    @extend .el;
+    background-color: map-get($superMap,col1)  
+}
+
+.el2 {
+    @extend .el;
+    background-color: map-get($superMap,col2)  
+}
+.el3 {
+    @extend .el;
+    background-color: map-get($superMap,col3)  
+}
+.el4 {
+    @extend .el;
+    background-color: map-get($superMap,col4)  
+}
+.el5 {
+    @extend .el;
+    background-color: map-get($superMap,col5)  
+}
+
+// ************** Przykładowy scss (był pisany na sassmeister
+
+// lista pięciu kolorów
+
+$superColorList : red blue yellow;
+
+.div {
+  background-color: nth($superColorList, 1);
+}
+
+.div2 {
+    background-color: nth($superColorList, 2);
+}
+
+//mapa
+
+$coloroma : (
+  mainColor : orange,
+  mainW : 30px,
+  mainH : 50px
+);
+
+.divM {
+  height: map-get($coloroma, mainH);
+  width: map-get($coloroma, mainW); ;
+}
+
+// ********** To było robione na SassMeister
+
+//stwórz listę 5ciu kolorów
+//zrób pętlę for od 1 do długości listy
+//wygeneruj klasy o nazwach .el-1, .el-2, etc
+//każda klasa powinna mieć color: tutaj pobrany kolor
+
+$colList : red blue orange yellow green;
+
+@for $i from 1 through length($colList) {
+  .el-#{$i} { color: nth($colList, $i) }
+}
+
+// ************** kolejny z SM
+
+$colList : red blue orange yellow green;
+
+@each $col in $colList {
+  div {
+    color: $col;
+    
+  }
+  
+}
+
+// ************** kolejny z SM
+
+$lista: red yellow blue;
+
+@each $col in $lista {
+  div {
+    color: $col;
+  }
+}
+
+//MAPA
+$mapa : (
+  kolor1 : red,
+  kolor2 : blue,
+  kolor3 : cyan,
+  kolorWazny : black
+);
+
+
+//tutaj za pomoca FOR - ale w sumie nie ma sensu
+//bo klucze musza byc wtedy takie same (kolor1, kolor2...)
+// @for $i from 1 through length($mapa) {
+//   div {
+//     color : map-get($mapa, kolor#{$i});
+//   } 
+// }
+
+@each $key, $color in $mapa {
+  div {
+    color: $color;
+  }
+}
+
+
+//3 sposob z rzutowaniem wartosci mapy na liste
+$lisa : map-values($mapa);
+@for $i from 1 through length($lisa) {
+  div {
+    color: nth($lisa, $i)
+  }
+}
+
+
+// Super!!!
+
+//btn
+@mixin btn($color: red) {
+  display:inline-block;
+  padding:30px 50px;
+  font-weight:bold;
+  border:0;
+  background:$color;
+  box-shadow:inset 0 0 0 $color, 0 0 0 $color;
+  transition:0.5s all;
+  
+  &:hover {
+    background: darken($color, 10%);
+    box-shadow:
+    inset 0 -1px 0 0 lighten($color, 30%),
+    0 10px 0 0 darken($color, 30%);
+  }
+}
+
+
+button {
+  @include btn(blue);
+}
+button:nth-of-type(2) {
+  @include btn(orange);
+}
